@@ -1,4 +1,4 @@
-package com.huang.framework.authority.exception;
+package com.huang.framework.authority.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.security.access.AccessDeniedException;

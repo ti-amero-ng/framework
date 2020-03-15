@@ -1,6 +1,6 @@
 package com.huang.framework.authority.config;
 
-import com.huang.framework.authority.exception.GlobalAccessDeniedHandler;
+import com.huang.framework.authority.handler.GlobalAccessDeniedHandler;
 import com.huang.framework.authority.filter.CustomAuthenticationFilter;
 import com.huang.framework.authority.filter.GlobalBasicAuthenticationFilter;
 import com.huang.framework.authority.filter.SmsCodeAuthenticationFilter;
@@ -13,16 +13,12 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -96,37 +92,6 @@ public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             commonConfigure(http);
         }
     }
-
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        // 添加验证码校验过滤器 在UsernamePasswordAuthenticationFilter之前
-//        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-//                .httpBasic().authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-//                .and()
-//                .formLogin() // 表单登录
-//                // 处理表单登录url
-//                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_URL_USERNAME_PASSWORD)
-//                .successHandler(new HAuthenticationSuccessHandler())
-//                .failureHandler(new HAuthenticationFailureHandler())
-//                .and()
-////                .addFilter(new HUsernamePasswordAuthenticationFilter(authenticationManager()))
-//                .addFilter(new GlobalBasicAuthenticationFilter(authenticationManager()))
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                // 授权配置
-//                .authorizeRequests()
-//                // 处理表单登录url
-//                .antMatchers( "/css/**", "/code/sms")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and().csrf().disable()
-//                // 将短信验证码认证配置加到 Spring Security 中
-//                .apply(smsAuthenticationConfig);
-//        http.addFilter(customAuthenticationFilter());
-//        http.exceptionHandling().accessDeniedHandler(globalAccessDeniedHandler).authenticationEntryPoint(globalAuthenticationEntryPoint);
-//    }
 
     private void commonConfigure(HttpSecurity http) throws Exception{
         //自定义校验逻辑过滤器配置
