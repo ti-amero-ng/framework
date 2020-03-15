@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/retail_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT
+    username: root
+    password: root
+  main:
+    allow-bean-definition-overriding: true
+
+  redis:
+    #地址
+    host: localhost
+    #端口
+    port: 6379
+    #索引库
+    database: 0
+    #密码
+    password:
+    #超时时间
+    timeout: 10000ms
+    jedis:
+      pool:
+        max-active: 10000
+        max-idle: 50
+        max-wait: 1
+        min-idle: 0
+
+swagger:
+  enable: true
+
+#关闭spring security
+security:
+  basic:
+    enabled: false
