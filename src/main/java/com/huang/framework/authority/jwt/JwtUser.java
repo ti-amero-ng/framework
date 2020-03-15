@@ -1,4 +1,4 @@
-package com.huang.framework.authority.entity;
+package com.huang.framework.authority.jwt;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

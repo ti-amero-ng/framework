@@ -2,8 +2,8 @@ package com.huang.framework.authority.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huang.framework.utils.http.ContentCachingRequestWrapper;
-import com.huang.framework.authority.entity.SecurityConstants;
-import com.huang.framework.authority.handler.HAuthenticationFailureHandler;
+import com.huang.framework.authority.config.SecurityConstants;
+import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.service.AbstractCheckSmsCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import java.util.Map;
 @Component
 public class SmsCodeAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
-    private HAuthenticationFailureHandler authenticationFailureHandler;
+    private GlobalAuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
     private AbstractCheckSmsCode abstractCheckSmsCode;
@@ -37,9 +37,10 @@ public class SmsCodeAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        //从请求中获取url，如果url等于配置的短信登录url，并且为POST请求 进行校验逻辑
+        //包装HttpServletRequest
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(httpServletRequest);
-        if (StringUtils.equalsIgnoreCase(SecurityConstants.DEFAULT_MOBILE_LOGIN_URL, httpServletRequest.getRequestURI())
+        //从请求中获取url，如果url等于配置的短信登录url，并且为POST请求 进行校验逻辑
+        if (StringUtils.equalsIgnoreCase(SecurityConstants.DEFAULT_LOGIN_URL_MOBILE, httpServletRequest.getRequestURI())
                 && StringUtils.equalsIgnoreCase(httpServletRequest.getMethod(), HttpMethod.POST.toString())) {
             try {
                 //校验验证码
@@ -63,7 +64,11 @@ public class SmsCodeAuthenticationFilter extends OncePerRequestFilter {
             mobile = authenticationBean.get(SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE);
             code = authenticationBean.get(SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_SMS);
 
-            abstractCheckSmsCode.checkCode(mobile,code);
+            Boolean checkCode = abstractCheckSmsCode.checkCode(mobile, code);
+            if(!checkCode){
+                throw new InternalAuthenticationServiceException("验证码错误");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalAuthenticationServiceException(e.getMessage());

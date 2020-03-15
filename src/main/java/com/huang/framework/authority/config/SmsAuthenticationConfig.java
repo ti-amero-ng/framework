@@ -1,15 +1,15 @@
 package com.huang.framework.authority.config;
 
-import com.huang.framework.authority.UserDetailServiceImpl;
-import com.huang.framework.authority.handler.HAuthenticationFailureHandler;
-import com.huang.framework.authority.handler.HAuthenticationSuccessHandler;
 import com.huang.framework.authority.filter.SmsAuthenticationFilter;
+import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
+import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
 import com.huang.framework.authority.provider.SmsAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -22,11 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
     @Autowired
-    private HAuthenticationFailureHandler authenticationFailureHandler;
+    private GlobalAuthenticationFailureHandler authenticationFailureHandler;
     @Autowired
-    private HAuthenticationSuccessHandler authenticationSuccessHandler;
+    private GlobalAuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
-    private UserDetailServiceImpl userDetailService;
+    private UserDetailsService userDetailService;
 
     /**
      * 将Filter与Provider串起来

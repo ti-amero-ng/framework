@@ -20,7 +20,6 @@ import java.util.Map;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response){
-        System.out.println(request.getContentType());
         if( request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE)){
             ObjectMapper mapper = new ObjectMapper();
             UsernamePasswordAuthenticationToken authRequest = null;

@@ -25,7 +25,6 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //转换过滤器传过来的SmsAuthenticationToken
         SmsAuthenticationToken smsAuthenticationToken = (SmsAuthenticationToken) authentication;
-        log.info("手机号"+ (String) authentication.getPrincipal());
         //通过 loadUserByUsername 方法查询对于用户
         UserDetails userDetails = userDetailsService.loadUserByUsername((String) authentication.getPrincipal());
 
@@ -49,7 +48,6 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
     @Override
     public boolean supports(Class<?> authentication) {
         //isAssignableFrom() 该方法是判断两个Class类型的对象是否为同一个。
-        boolean assignableFrom = authentication.isAssignableFrom(SmsAuthenticationToken.class);
         return authentication.isAssignableFrom(SmsAuthenticationToken.class);
     }
 }

@@ -1,19 +1,16 @@
 package com.huang.framework.authority.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.huang.framework.authority.entity.SecurityConstants;
+import com.huang.framework.authority.config.SecurityConstants;
 import com.huang.framework.authority.provider.SmsAuthenticationToken;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -32,7 +29,7 @@ public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private boolean postOnly = true;
 
     public SmsAuthenticationFilter() {
-        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_MOBILE_LOGIN_URL, HttpMethod.POST.toString()));
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_URL_MOBILE, HttpMethod.POST.toString()));
     }
 
     @Override

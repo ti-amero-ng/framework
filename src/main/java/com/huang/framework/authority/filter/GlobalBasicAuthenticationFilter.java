@@ -18,9 +18,9 @@ import java.util.ArrayList;
  * @Author -Huang
  * @create 2019/9/4 10:41
  */
-public class HBasicAuthenticationFilter extends BasicAuthenticationFilter {
+public class GlobalBasicAuthenticationFilter extends BasicAuthenticationFilter {
 
-    public HBasicAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public GlobalBasicAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 

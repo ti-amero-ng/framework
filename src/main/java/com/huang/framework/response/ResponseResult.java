@@ -23,7 +23,7 @@ public class ResponseResult {
     }
 
     public static ResponseResult success(Object data){
-        return new ResponseResult(200,"",data);
+        return new ResponseResult(200,"success",data);
     }
 
     public static ResponseResult success(){

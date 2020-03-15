@@ -1,5 +1,6 @@
 package com.huang.framework.authority.jwt;
 
+import com.huang.framework.authority.config.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,7 +12,7 @@ import java.util.Date;
  * @create 2019/9/3 16:58
  */
 public class JwtTokenUtils {
-    public static final String TOKEN_HEADER = "Authorization";
+    public static final String TOKEN_HEADER = SecurityConstants.TOKEN_HEADER;
     public static final String TOKEN_PREFIX = "Bearer ";
 
     private static final String SECRET = "jwt_secret";
@@ -23,7 +24,7 @@ public class JwtTokenUtils {
     /**
      * 过期时间是3600秒，既是1个小时
      */
-    private static final long EXPIRATION = 3600L;
+    private static final long EXPIRATION = SecurityConstants.TOKEN_EXPIRATION_TIME;
 
     private static final String ROLE_CLAIMS = "rol";
 

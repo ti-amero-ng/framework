@@ -38,7 +38,7 @@ public class SmsService extends AbstractCheckSmsCode{
      * @param code
      */
     @Override
-    public void checkCode(String mobile, String code) {
+    public Boolean checkCode(String mobile, String code) {
         String s = redisUtil.get(MOBILE_SMS_CODE + mobile);
         log.info("checkCode : " + s);
         if(null == s || !code.equals(s)){
@@ -46,6 +46,7 @@ public class SmsService extends AbstractCheckSmsCode{
             throw new ServiceException("验证码错误");
         }
         redisUtil.del(MOBILE_SMS_CODE + mobile);
+        return true;
     }
 
     /**
