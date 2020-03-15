@@ -3,7 +3,6 @@ package com.huang.framework.authority.config;
 import com.huang.framework.authority.filter.CustomAuthenticationFilter;
 import com.huang.framework.authority.filter.GlobalBasicAuthenticationFilter;
 import com.huang.framework.authority.filter.SmsCodeAuthenticationFilter;
-import com.huang.framework.authority.handler.GlobalAuthenticationEntryPoint;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
