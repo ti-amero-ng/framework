@@ -5,6 +5,7 @@ import com.huang.framework.authority.jwt.JwtUser;
 import com.huang.framework.authority.jwt.JwtTokenUtils;
 import com.huang.framework.response.ResponseResult;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +22,8 @@ import java.io.IOException;
 public class GlobalAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-        String token = JwtTokenUtils.createToken(jwtUser.getUsername());
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String token = JwtTokenUtils.createToken(userDetails.getUsername());
         // 返回创建成功的token
         // 按照jwt的规定，最后请求的格式应该是 `Bearer token`
         response.setHeader("token", JwtTokenUtils.TOKEN_PREFIX + token);
