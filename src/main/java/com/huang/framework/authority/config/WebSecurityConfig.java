@@ -5,6 +5,7 @@ import com.huang.framework.authority.filter.GlobalBasicAuthenticationFilter;
 import com.huang.framework.authority.filter.SmsCodeAuthenticationFilter;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
+import com.huang.framework.service.AbstractCheckSmsCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,8 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 短信验证码验证过滤器
      */
-    @Autowired
-    private SmsCodeAuthenticationFilter validateCodeFilter;
+//    @Autowired
+//    private SmsCodeAuthenticationFilter validateCodeFilter;
     /**
      * 短信配置provider
      */
@@ -46,6 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private AccessDeniedHandler globalAccessDeniedHandler;
+
+    @Autowired
+    private AbstractCheckSmsCode abstractCheckSmsCode;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -143,7 +147,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //配置短信验证码过滤器
         http.addFilter(basicAuthenticationFilter);
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(new SmsCodeAuthenticationFilter(abstractCheckSmsCode), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic().authenticationEntryPoint(globalAuthenticationEntryPoint);
 
         //表单登录登录配置

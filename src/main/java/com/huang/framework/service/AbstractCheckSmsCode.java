@@ -1,13 +1,10 @@
 package com.huang.framework.service;
 
-import org.springframework.stereotype.Service;
-
 /**
  * 验证码校验抽象类
  * @author -Huang
  * @create 2020-03-14 14:42
  */
-@Service
 public interface AbstractCheckSmsCode {
     /**
      * 短信验证码校验逻辑

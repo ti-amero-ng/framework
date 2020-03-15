@@ -26,13 +26,15 @@ import java.util.Map;
  * @author -Huang
  * @create 2020-03-13 11:03
  */
-@Component
 public class SmsCodeAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private GlobalAuthenticationFailureHandler authenticationFailureHandler;
 
-    @Autowired
     private AbstractCheckSmsCode abstractCheckSmsCode;
+
+    public SmsCodeAuthenticationFilter(AbstractCheckSmsCode abstractCheckSmsCode){
+        this.abstractCheckSmsCode = abstractCheckSmsCode;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
