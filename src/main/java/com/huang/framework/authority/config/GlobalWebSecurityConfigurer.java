@@ -1,8 +1,10 @@
 package com.huang.framework.authority.config;
 
+import com.huang.framework.authority.exception.GlobalAccessDeniedHandler;
 import com.huang.framework.authority.filter.CustomAuthenticationFilter;
 import com.huang.framework.authority.filter.GlobalBasicAuthenticationFilter;
 import com.huang.framework.authority.filter.SmsCodeAuthenticationFilter;
+import com.huang.framework.authority.handler.GlobalAuthenticationEntryPoint;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
 import com.huang.framework.service.AbstractCheckSmsCode;
@@ -17,6 +19,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -48,6 +51,8 @@ public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AbstractCheckSmsCode abstractCheckSmsCode;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -146,7 +151,7 @@ public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         //配置短信验证码过滤器
         http.addFilter(basicAuthenticationFilter);
         http.addFilterBefore(new SmsCodeAuthenticationFilter(abstractCheckSmsCode), UsernamePasswordAuthenticationFilter.class)
-                .httpBasic().authenticationEntryPoint(globalAuthenticationEntryPoint);
+                .httpBasic().authenticationEntryPoint(new GlobalAuthenticationEntryPoint());
 
         //表单登录登录配置
         http.formLogin()
@@ -154,11 +159,11 @@ public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .successHandler(new GlobalAuthenticationSuccessHandler())
                 .failureHandler(new GlobalAuthenticationFailureHandler());
 
-        http.addFilter(customAuthenticationFilter()).apply(smsAuthenticationConfig);
+        http.addFilter(customAuthenticationFilter()).apply(new SmsAuthenticationConfig(userDetailsService));
 
 
         //访问异常以及权限异常处理器配置
-        http.exceptionHandling().accessDeniedHandler(globalAccessDeniedHandler).authenticationEntryPoint(globalAuthenticationEntryPoint);
+        http.exceptionHandling().accessDeniedHandler(new GlobalAccessDeniedHandler()).authenticationEntryPoint(new GlobalAuthenticationEntryPoint());
         // 禁用 SESSION、JSESSIONID
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

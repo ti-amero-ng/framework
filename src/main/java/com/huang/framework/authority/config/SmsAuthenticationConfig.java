@@ -21,12 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-    @Autowired
-    private GlobalAuthenticationFailureHandler authenticationFailureHandler;
-    @Autowired
-    private GlobalAuthenticationSuccessHandler authenticationSuccessHandler;
-    @Autowired
     private UserDetailsService userDetailService;
+
+    public SmsAuthenticationConfig(UserDetailsService userDetailService){
+        this.userDetailService = userDetailService;
+    }
 
     /**
      * 将Filter与Provider串起来
@@ -40,9 +39,9 @@ public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSe
         //设置AuthenticationManager Filter和Provider中间的桥梁就是AuthenticationManager
         authenticationFilter.setAuthenticationManager(httpSecurity.getSharedObject(AuthenticationManager.class));
         //登录成功处理
-        authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
+        authenticationFilter.setAuthenticationSuccessHandler(new GlobalAuthenticationSuccessHandler());
         //登录失败处理
-        authenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        authenticationFilter.setAuthenticationFailureHandler(new GlobalAuthenticationFailureHandler());
 
         //配置SmsAuthenticationProvider ，注入UserDetailsService
         SmsAuthenticationProvider smsAuthenticationProvider = new SmsAuthenticationProvider();
