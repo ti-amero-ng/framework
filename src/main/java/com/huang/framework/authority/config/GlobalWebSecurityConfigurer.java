@@ -7,7 +7,10 @@ import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
 import com.huang.framework.service.AbstractCheckSmsCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -24,9 +27,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @Author -Huang
  * @create 2019/9/4 10:05
  */
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+@Order(SecurityProperties.BASIC_AUTH_ORDER)
+public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     /**
      * 短信配置provider
      */
