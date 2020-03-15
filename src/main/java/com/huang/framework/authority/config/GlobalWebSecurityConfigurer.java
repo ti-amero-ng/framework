@@ -33,22 +33,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
-    /**
-     * 短信配置provider
-     */
-    @Autowired
-    private SmsAuthenticationConfig smsAuthenticationConfig;
-    /**
-     * 认证异常处理器
-     */
-    @Autowired
-    private AuthenticationEntryPoint globalAuthenticationEntryPoint;
-    /**
-     * 访问无权限资源处理器
-     */
-    @Autowired
-    private AccessDeniedHandler globalAccessDeniedHandler;
-
     @Autowired
     private AbstractCheckSmsCode abstractCheckSmsCode;
     @Autowired
