@@ -28,11 +28,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
-     * 短信验证码验证过滤器
-     */
-//    @Autowired
-//    private SmsCodeAuthenticationFilter validateCodeFilter;
-    /**
      * 短信配置provider
      */
     @Autowired
