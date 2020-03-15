@@ -29,7 +29,7 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
         UserDetails userDetails = userDetailsService.loadUserByUsername((String) authentication.getPrincipal());
 
         if (userDetails == null) {
-            throw new InternalAuthenticationServiceException("未找到与该手机对应的用户");
+            throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
 
         //生成新的SmsAuthenticationToken
