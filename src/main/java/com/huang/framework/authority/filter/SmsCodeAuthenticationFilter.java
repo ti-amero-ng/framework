@@ -2,7 +2,7 @@ package com.huang.framework.authority.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huang.framework.utils.http.ContentCachingRequestWrapper;
-import com.huang.framework.authority.config.SecurityConstants;
+import com.huang.framework.service.SecurityConstants;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.service.AbstractCheckSmsCode;
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

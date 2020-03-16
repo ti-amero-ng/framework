@@ -1,4 +1,4 @@
-package com.huang.framework.authority.config;
+package com.huang.framework.service;
 
 /**
  * @author -Huang

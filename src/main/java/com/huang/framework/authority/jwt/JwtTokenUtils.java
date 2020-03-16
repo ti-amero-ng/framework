@@ -1,6 +1,6 @@
 package com.huang.framework.authority.jwt;
 
-import com.huang.framework.authority.config.SecurityConstants;
+import com.huang.framework.service.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

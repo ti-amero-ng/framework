@@ -8,6 +8,7 @@ import com.huang.framework.authority.handler.GlobalAuthenticationEntryPoint;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
 import com.huang.framework.service.AbstractCheckSmsCode;
+import com.huang.framework.service.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
