@@ -9,6 +9,7 @@ import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
 import com.huang.framework.authority.service.AbstractCheckSmsCode;
 import com.huang.framework.authority.service.SecurityConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableResourceServer
+@Slf4j
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -64,6 +66,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        log.info("资源服务器配置...start");
         http
                 .authorizeRequests()
                 .anyRequest()

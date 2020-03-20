@@ -2,6 +2,7 @@ package com.huang.framework.authority.auth2;
 
 import com.huang.framework.authority.properties.OAuth2ClientProperties;
 import com.huang.framework.authority.properties.SecurityProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @Configuration
 @EnableAuthorizationServer
+@Slf4j
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 //    @Autowired(required = false)
@@ -69,6 +71,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        log.info("oauth客户端配置...start");
         InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
         if(ArrayUtils.isNotEmpty(securityProperties.getOauth2().getClients())){
             for(OAuth2ClientProperties c : securityProperties.getOauth2().getClients()){
