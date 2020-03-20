@@ -57,23 +57,35 @@ public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                         "/images/**");
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        boolean isCloseAuth;
+//
+//        CloseAuthorityEvironment closeAuthority = customCloseAuthorityEvironment();
+//        if(closeAuthority ==null || closeAuthority.getCloseAuthEnvironment() == null || closeAuthority.getCurrentRunEnvironment()==null){
+//            isCloseAuth = false;
+//        }else{
+//            isCloseAuth = closeAuthority.getCloseAuthEnvironment().equals(closeAuthority.getCurrentRunEnvironment());
+//        }
+//
+//        if(isCloseAuth){
+//            closeAuthConfigure(http);
+//        }else{
+//            customConfigure(http);
+//            commonConfigure(http);
+//        }
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        boolean isCloseAuth;
-
-        CloseAuthorityEvironment closeAuthority = customCloseAuthorityEvironment();
-        if(closeAuthority ==null || closeAuthority.getCloseAuthEnvironment() == null || closeAuthority.getCurrentRunEnvironment()==null){
-            isCloseAuth = false;
-        }else{
-            isCloseAuth = closeAuthority.getCloseAuthEnvironment().equals(closeAuthority.getCurrentRunEnvironment());
-        }
-
-        if(isCloseAuth){
-            closeAuthConfigure(http);
-        }else{
-            customConfigure(http);
-            commonConfigure(http);
-        }
+        http.formLogin()
+                .and()
+                .requestMatchers()
+                .antMatchers("/oauth/authorize")
+                .and()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated().and();
     }
 
     /**
@@ -102,7 +114,11 @@ public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .and()
                 .requestMatchers()
-                .antMatchers("/oauth/authorize");
+                .antMatchers("/oauth/authorize")
+                .and()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated().and();
     }
 
 
