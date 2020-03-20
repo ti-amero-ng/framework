@@ -70,7 +70,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        log.info("oauth客户端配置...start");
         InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
         if(ArrayUtils.isNotEmpty(securityProperties.getOauth2().getClients())){
             for(OAuth2ClientProperties c : securityProperties.getOauth2().getClients()){
@@ -81,11 +80,11 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                         .secret(bCryptPasswordEncoder.encode(c.getClientSecret()))
                         //令牌有效期
                         .accessTokenValiditySeconds(c.getAccessTokenValiditySeconds())
-                        .redirectUris("http://www.example.com")
+                        .redirectUris(c.getRedirectUris())
                         //客户单权限
-                        .scopes("all")
+                        .scopes(c.getScopes())
                         // 授权模式
-                        .authorizedGrantTypes("refresh_token","authorization_code","password");
+                        .authorizedGrantTypes(c.getAuthorizedGrantTypes());
             }
         }
     }

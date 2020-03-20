@@ -8,10 +8,15 @@ spring:
 swagger:
   enable: true
 
-#framework:
-#  security:
-#    oauth2:
-#      clients[0]:
-#        clientId: client
-#        clientSecret: 123qwe
-#        accessTokenValiditySeconds: 60
+framework:
+  security:
+    oauth2:
+      clients[0]:
+        clientId: client
+        clientSecret: 123qwe
+        accessTokenValiditySeconds: 60
+        authorizedGrantTypes: ["refresh_token", "password"]
+        redirectUris: "http://example.com"
+        scopes: ["all", "read", "write"]
+      tokenStore: jwt
+      jwtSigningKey: secret

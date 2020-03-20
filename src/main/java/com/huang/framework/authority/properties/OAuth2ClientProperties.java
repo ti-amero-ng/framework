@@ -21,4 +21,16 @@ public class OAuth2ClientProperties {
      * token有效期
      */
     private int accessTokenValiditySeconds;
+    /**
+     * 授权模式
+     */
+    private String[] authorizedGrantTypes = {};
+    /**
+     * 信任的回调域
+     */
+    private String[] redirectUris = {};
+    /**
+     * 客户端权限
+     */
+    private String[] scopes = {};
 }
