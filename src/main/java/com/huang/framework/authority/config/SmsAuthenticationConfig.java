@@ -4,12 +4,13 @@ import com.huang.framework.authority.filter.SmsAuthenticationFilter;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
 import com.huang.framework.authority.provider.SmsAuthenticationProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -19,16 +20,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author -Huang
  * @create 2020-03-13 11:08
  */
-@Configuration
 public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-    @Autowired
     private UserDetailsService userDetailService;
 
-    @Autowired
-    private GlobalAuthenticationFailureHandler globalAuthenticationFailureHandler;
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
 
-    @Autowired
-    private GlobalAuthenticationSuccessHandler globalAuthenticationSuccessHandler;
+    private ClientDetailsService clientDetailsService;
+
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public SmsAuthenticationConfig(UserDetailsService userDetailService, AuthorizationServerTokenServices authorizationServerTokenServices, ClientDetailsService clientDetailsService, BCryptPasswordEncoder passwordEncoder){
+        this.userDetailService = userDetailService;
+        this.authorizationServerTokenServices = authorizationServerTokenServices;
+        this.clientDetailsService = clientDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     /**
      * 将Filter与Provider串起来
@@ -42,9 +48,9 @@ public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSe
         //设置AuthenticationManager Filter和Provider中间的桥梁就是AuthenticationManager
         authenticationFilter.setAuthenticationManager(httpSecurity.getSharedObject(AuthenticationManager.class));
         //登录成功处理
-        authenticationFilter.setAuthenticationSuccessHandler(globalAuthenticationSuccessHandler);
+        authenticationFilter.setAuthenticationSuccessHandler(new GlobalAuthenticationSuccessHandler(authorizationServerTokenServices,clientDetailsService,passwordEncoder));
         //登录失败处理
-        authenticationFilter.setAuthenticationFailureHandler(globalAuthenticationFailureHandler);
+        authenticationFilter.setAuthenticationFailureHandler(new GlobalAuthenticationFailureHandler());
 
         //配置SmsAuthenticationProvider ，注入UserDetailsService
         SmsAuthenticationProvider smsAuthenticationProvider = new SmsAuthenticationProvider();

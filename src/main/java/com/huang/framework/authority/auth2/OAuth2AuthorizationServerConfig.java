@@ -32,15 +32,14 @@ import java.util.List;
 @EnableAuthorizationServer
 @Slf4j
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-
-//    @Autowired(required = false)
-//    private UserDetailsService userDetailsService;
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired(required = false)
     public TokenStore tokenStore;
@@ -102,9 +101,9 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         endpoints
                 .tokenStore(tokenStore)
                 .authenticationManager(this.authenticationManager);
-//        if(null != userDetailsService){
-//            endpoints.userDetailsService(userDetailsService);
-//        }
+        if(null != userDetailsService){
+            endpoints.userDetailsService(userDetailsService);
+        }
         if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
             //生成增强器链
             TokenEnhancerChain enhancerChain = new TokenEnhancerChain();

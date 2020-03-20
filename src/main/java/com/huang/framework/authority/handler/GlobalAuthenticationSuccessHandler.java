@@ -23,17 +23,19 @@ import java.util.Base64;
  * @author -Huang
  * @create 2020-03-03 20:34
  */
-@Component
 public class GlobalAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
 
-    @Autowired
     private ClientDetailsService clientDetailsService;
 
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    public GlobalAuthenticationSuccessHandler(AuthorizationServerTokenServices authorizationServerTokenServices,ClientDetailsService clientDetailsService,BCryptPasswordEncoder passwordEncoder){
+        this.passwordEncoder = passwordEncoder;
+        this.clientDetailsService = clientDetailsService;
+        this.authorizationServerTokenServices = authorizationServerTokenServices;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

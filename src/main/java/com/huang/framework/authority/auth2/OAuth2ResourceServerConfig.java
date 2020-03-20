@@ -16,9 +16,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -27,10 +31,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author -Huang
  * @create 2020-03-18 19:02
  */
+@Slf4j
 @Configuration
 @EnableResourceServer
-@Slf4j
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
+    @Autowired
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
+
+    @Autowired
+    private ClientDetailsService clientDetailsService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -38,19 +51,11 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     private AbstractCheckSmsCode abstractCheckSmsCode;
 
     @Autowired
-    private GlobalAuthenticationSuccessHandler globalAuthenticationSuccessHandler;
+    private UserDetailsService userDetailsService;
 
-    @Autowired
-    private GlobalAuthenticationFailureHandler globalAuthenticationFailureHandler;
+    private GlobalAuthenticationFailureHandler globalAuthenticationFailureHandler = new GlobalAuthenticationFailureHandler();
 
-    @Autowired
-    private GlobalAccessDeniedHandler globalAccessDeniedHandler;
-
-    @Autowired
-    private GlobalAuthenticationEntryPoint globalAuthenticationEntryPoint;
-
-    @Autowired
-    private SmsAuthenticationConfig smsAuthenticationConfig;
+    private GlobalAccessDeniedHandler globalAccessDeniedHandler = new GlobalAccessDeniedHandler();
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -71,16 +76,17 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
         //表单登录登录配置
         http.formLogin()
                 .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_URL_USERNAME_PASSWORD)
-                .successHandler(globalAuthenticationSuccessHandler)
+                .successHandler(new GlobalAuthenticationSuccessHandler(authorizationServerTokenServices,clientDetailsService,bCryptPasswordEncoder))
                 .failureHandler(globalAuthenticationFailureHandler);
 
         //添加自定义json登陆处理、短信登陆配置
-        http.addFilter(customAuthenticationFilter()).apply(smsAuthenticationConfig);
+        http.addFilter(customAuthenticationFilter())
+                .apply(new SmsAuthenticationConfig(userDetailsService,authorizationServerTokenServices,clientDetailsService,bCryptPasswordEncoder));
 
         //访问异常以及权限异常处理器配置
         http.exceptionHandling()
                 .accessDeniedHandler(globalAccessDeniedHandler)
-                .authenticationEntryPoint(globalAuthenticationEntryPoint);
+                .authenticationEntryPoint(new GlobalAuthenticationEntryPoint());
 
         // 禁用 SESSION、JSESSIONID
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -94,7 +100,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Bean
     CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
         CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
-        filter.setAuthenticationSuccessHandler(globalAuthenticationSuccessHandler);
+        filter.setAuthenticationSuccessHandler(new GlobalAuthenticationSuccessHandler(authorizationServerTokenServices,clientDetailsService,bCryptPasswordEncoder));
         filter.setAuthenticationFailureHandler(globalAuthenticationFailureHandler);
         filter.setAuthenticationManager(authenticationManager);
         return filter;

@@ -4,6 +4,7 @@ import com.huang.framework.authority.service.AbstractCheckSmsCode;
 import com.huang.framework.authority.service.DefaultSmsCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -21,7 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @create 2019/9/4 10:05
  */
 @Configuration
-@Order(1)
+@Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
