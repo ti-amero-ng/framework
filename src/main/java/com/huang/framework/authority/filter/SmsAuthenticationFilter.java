@@ -1,7 +1,7 @@
 package com.huang.framework.authority.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.huang.framework.service.SecurityConstants;
+import com.huang.framework.authority.service.SecurityConstants;
 import com.huang.framework.authority.provider.SmsAuthenticationToken;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;

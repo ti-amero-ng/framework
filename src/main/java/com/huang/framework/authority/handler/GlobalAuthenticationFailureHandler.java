@@ -23,6 +23,7 @@ public class GlobalAuthenticationFailureHandler implements AuthenticationFailure
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        e.printStackTrace();
         response.getWriter().write(new ObjectMapper().writeValueAsString(ResponseResult.info(e.getMessage())));
     }
 }

@@ -1,9 +1,17 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/retail_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT
+    url: jdbc:mysql://localhost:3306/framework?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT
     username: root
     password: root
 
 swagger:
   enable: true
+
+#framework:
+#  security:
+#    oauth2:
+#      clients[0]:
+#        clientId: client
+#        clientSecret: 123qwe
+#        accessTokenValiditySeconds: 60

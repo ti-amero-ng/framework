@@ -1,4 +1,4 @@
-package com.huang.framework.service;
+package com.huang.framework.authority.service;
 
 /**
  * 验证码校验抽象类
