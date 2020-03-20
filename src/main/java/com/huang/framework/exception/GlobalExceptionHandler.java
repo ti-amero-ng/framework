@@ -2,7 +2,6 @@ package com.huang.framework.exception;
 
 import com.huang.framework.response.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

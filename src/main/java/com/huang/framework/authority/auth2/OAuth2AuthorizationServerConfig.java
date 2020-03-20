@@ -1,5 +1,6 @@
 package com.huang.framework.authority.auth2;
 
+import com.huang.framework.authority.config.CloseAuthorityEvironment;
 import com.huang.framework.authority.properties.OAuth2ClientProperties;
 import com.huang.framework.authority.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +29,9 @@ import java.util.List;
  * @author -Huang
  * @create 2020-03-18 19:00
  */
+@Slf4j
 @Configuration
 @EnableAuthorizationServer
-@Slf4j
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -45,7 +46,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     public TokenStore tokenStore;
 
     /**
-     * 只有当使用jwt的时候才会有该对象
+     * 只有当使用jwt的时候才会有该对象,用户实现tokenEnhancer类
      */
     @Autowired(required = false)
     private JwtAccessTokenConverter jwtAccessTokenConverter;
@@ -81,11 +82,11 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                         .secret(bCryptPasswordEncoder.encode(c.getClientSecret()))
                         //令牌有效期
                         .accessTokenValiditySeconds(c.getAccessTokenValiditySeconds())
-                        .redirectUris("http://www.example.com")
+                        .redirectUris(c.getRedirectUris())
                         //客户单权限
-                        .scopes("all")
+                        .scopes(c.getScopes())
                         // 授权模式
-                        .authorizedGrantTypes("refresh_token","authorization_code","password");
+                        .authorizedGrantTypes(c.getAuthorizedGrantTypes());
             }
         }
     }
@@ -100,10 +101,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         //配置使用redis来存储
         endpoints
                 .tokenStore(tokenStore)
-                .authenticationManager(this.authenticationManager);
-        if(null != userDetailsService){
-            endpoints.userDetailsService(userDetailsService);
-        }
+                .authenticationManager(this.authenticationManager)
+                .userDetailsService(userDetailsService);
         if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
             //生成增强器链
             TokenEnhancerChain enhancerChain = new TokenEnhancerChain();

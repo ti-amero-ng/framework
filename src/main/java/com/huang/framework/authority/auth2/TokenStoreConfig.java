@@ -26,7 +26,7 @@ public class TokenStoreConfig {
     @Bean
     @ConditionalOnProperty(prefix = "framework.security.oauth2", name = "tokenStore", havingValue = "redis")
     public TokenStore tokenStore() {
-        return new MyRedisTokenStore(redisConnectionFactory);
+        return new CustomRedisTokenStore(redisConnectionFactory);
     }
 
     /**
@@ -58,7 +58,7 @@ public class TokenStoreConfig {
         @Bean
         @ConditionalOnBean(TokenEnhancer.class)
         public TokenEnhancer jwtTokenEnhancer() {
-            return new MyJwtTokenEnhancer();
+            return new CustomJwtTokenEnhancer();
         }
     }
 }

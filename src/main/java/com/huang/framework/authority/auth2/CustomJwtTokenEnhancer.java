@@ -14,7 +14,7 @@ import java.util.Map;
  * @author -Huang
  *
  */
-public class MyJwtTokenEnhancer implements TokenEnhancer {
+public class CustomJwtTokenEnhancer implements TokenEnhancer {
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 		Map<String, Object> info = new HashMap<>();

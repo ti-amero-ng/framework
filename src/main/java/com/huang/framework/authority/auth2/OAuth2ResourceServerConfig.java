@@ -1,8 +1,8 @@
 package com.huang.framework.authority.auth2;
 
-import com.huang.framework.authority.config.SmsAuthenticationConfig;
+import com.huang.framework.authority.mobile.SmsAuthenticationConfig;
 import com.huang.framework.authority.filter.CustomAuthenticationFilter;
-import com.huang.framework.authority.filter.SmsCodeAuthenticationFilter;
+import com.huang.framework.authority.mobile.SmsCodeAuthenticationFilter;
 import com.huang.framework.authority.handler.GlobalAccessDeniedHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationEntryPoint;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;

@@ -1,4 +1,4 @@
-package com.huang.framework.authority.filter;
+package com.huang.framework.authority.mobile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huang.framework.utils.http.ContentCachingRequestWrapper;

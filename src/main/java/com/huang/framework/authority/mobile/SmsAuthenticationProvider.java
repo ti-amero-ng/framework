@@ -1,4 +1,4 @@
-package com.huang.framework.authority.provider;
+package com.huang.framework.authority.mobile;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -26,7 +26,12 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
         //转换过滤器传过来的SmsAuthenticationToken
         SmsAuthenticationToken smsAuthenticationToken = (SmsAuthenticationToken) authentication;
         //通过 loadUserByUsername 方法查询对于用户
-        UserDetails userDetails = userDetailsService.loadUserByUsername((String) authentication.getPrincipal());
+        UserDetails userDetails = null;
+        try {
+            userDetails = userDetailsService.loadUserByUsername((String) authentication.getPrincipal());
+        }catch (Exception e){
+            throw new InternalAuthenticationServiceException(e.getMessage());
+        }
 
         if (userDetails == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");

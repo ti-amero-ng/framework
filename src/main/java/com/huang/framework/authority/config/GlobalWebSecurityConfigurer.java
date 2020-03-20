@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -26,6 +27,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
+
+    /**
+     * 如果要让某种运行环境下关闭权限校验，请重写该方法
+     * @return
+     */
+    protected CloseAuthorityEvironment customCloseAuthorityEvironment(){
+        return null;
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -50,28 +59,63 @@ public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        boolean isCloseAuth;
+
+        CloseAuthorityEvironment closeAuthority = customCloseAuthorityEvironment();
+        if(closeAuthority ==null || closeAuthority.getCloseAuthEnvironment() == null || closeAuthority.getCurrentRunEnvironment()==null){
+            isCloseAuth = false;
+        }else{
+            isCloseAuth = closeAuthority.getCloseAuthEnvironment().equals(closeAuthority.getCurrentRunEnvironment());
+        }
+
+        if(isCloseAuth){
+            closeAuthConfigure(http);
+        }else{
+            customConfigure(http);
+            commonConfigure(http);
+        }
+    }
+
+    /**
+     * 用户自定义配置，子类可覆盖自定义实现
+     * @param http
+     * @throws Exception
+     */
+    protected HttpSecurity customConfigure(HttpSecurity http) throws Exception{
+        http.cors().and().csrf().disable().authorizeRequests()
+                .anyRequest().authenticated()
+                .and();
+        return http;
+    }
+
+    /**
+     * 关闭接口权限校验配置
+     * @param http
+     * @throws Exception
+     */
+    private void closeAuthConfigure(HttpSecurity http) throws Exception{
+        http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers("/**").permitAll();
+    }
+
+    private void commonConfigure(HttpSecurity http) throws Exception{
         http.formLogin()
                 .and()
                 .requestMatchers()
-                .antMatchers("/oauth/authorize")
-                .and()
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated();
+                .antMatchers("/oauth/authorize");
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
-
     @Override
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
-
 
     /**
      * 短信验证码登录验证实现类配置
@@ -82,6 +126,5 @@ public class GlobalWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     public AbstractCheckSmsCode smsValidateCheck(){
         return new DefaultSmsCheck();
     }
-
 
 }
