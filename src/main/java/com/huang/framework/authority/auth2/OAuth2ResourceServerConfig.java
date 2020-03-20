@@ -1,5 +1,6 @@
 package com.huang.framework.authority.auth2;
 
+import com.huang.framework.authority.config.CloseAuthorityEvironment;
 import com.huang.framework.authority.mobile.SmsAuthenticationConfig;
 import com.huang.framework.authority.filter.CustomAuthenticationFilter;
 import com.huang.framework.authority.mobile.SmsCodeAuthenticationFilter;
@@ -57,6 +58,14 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
 
     private GlobalAccessDeniedHandler globalAccessDeniedHandler = new GlobalAccessDeniedHandler();
 
+    /**
+     * 如果要让某种运行环境下关闭权限校验，请重写该方法
+     * @return
+     */
+    protected CloseAuthorityEvironment customCloseAuthorityEvironment(){
+        return null;
+    }
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         super.configure(resources);
@@ -65,10 +74,23 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         log.info("资源服务器配置...start");
-        http
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated();
+        boolean isCloseAuth;
+
+        CloseAuthorityEvironment closeAuthority = customCloseAuthorityEvironment();
+        if(closeAuthority ==null || closeAuthority.getCloseAuthEnvironment() == null || closeAuthority.getCurrentRunEnvironment()==null){
+            isCloseAuth = false;
+        }else{
+            isCloseAuth = closeAuthority.getCloseAuthEnvironment().equals(closeAuthority.getCurrentRunEnvironment());
+        }
+        if(isCloseAuth){
+            http.cors().and().csrf().disable()
+                    .authorizeRequests().anyRequest().permitAll();
+        }else {
+            http.cors().and().csrf().disable()
+                    .authorizeRequests()
+                    .anyRequest()
+                    .authenticated();
+        }
 
         //配置短信验证码过滤器
         http.addFilterBefore(new SmsCodeAuthenticationFilter(abstractCheckSmsCode), UsernamePasswordAuthenticationFilter.class);

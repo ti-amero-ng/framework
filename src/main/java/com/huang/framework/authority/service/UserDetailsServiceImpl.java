@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        log.info("framework---->UserDetailsServiceImpl");
+        log.info("framework框架---->UserDetailsServiceImpl");
         return new User(userName, bCryptPasswordEncoder.encode(userName), getAuthority());
     }
 
