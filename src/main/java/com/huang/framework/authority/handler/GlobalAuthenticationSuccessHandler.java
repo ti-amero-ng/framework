@@ -1,6 +1,7 @@
 package com.huang.framework.authority.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.huang.framework.response.ResponseResult;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -77,7 +78,7 @@ public class GlobalAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
 
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(token));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(ResponseResult.success(token)));
     }
 
     /**

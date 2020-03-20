@@ -80,6 +80,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         super.configure(resources);
+        resources.authenticationEntryPoint(new AuthExceptionEntryPoint());
     }
 
     @Override
