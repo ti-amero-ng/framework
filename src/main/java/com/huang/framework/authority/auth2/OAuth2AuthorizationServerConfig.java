@@ -31,8 +31,8 @@ import java.util.List;
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired(required = false)
-    private UserDetailsService userDetailsService;
+//    @Autowired(required = false)
+//    private UserDetailsService userDetailsService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -99,9 +99,9 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         endpoints
                 .tokenStore(tokenStore)
                 .authenticationManager(this.authenticationManager);
-        if(null != userDetailsService){
-            endpoints.userDetailsService(userDetailsService);
-        }
+//        if(null != userDetailsService){
+//            endpoints.userDetailsService(userDetailsService);
+//        }
         if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
             //生成增强器链
             TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
