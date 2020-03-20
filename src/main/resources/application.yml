@@ -14,7 +14,7 @@ framework:
       clients[0]:
         clientId: client
         clientSecret: 123qwe
-        accessTokenValiditySeconds: 60
+        accessTokenValiditySeconds: 200
         authorizedGrantTypes: ["refresh_token", "password"]
         redirectUris: "http://example.com"
         scopes: ["all", "read", "write"]

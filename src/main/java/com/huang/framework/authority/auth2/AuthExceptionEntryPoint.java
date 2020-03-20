@@ -1,7 +1,7 @@
 package com.huang.framework.authority.auth2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.huang.framework.response.ResponseResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -15,6 +15,7 @@ import java.util.Map;
  * @author -Huang
  * @create 2020-03-20 19:38
  */
+@Slf4j
 public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
     @Override
@@ -28,7 +29,6 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
         map.put("data", authException.getMessage());
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        authException.printStackTrace();
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(response.getOutputStream(),map);

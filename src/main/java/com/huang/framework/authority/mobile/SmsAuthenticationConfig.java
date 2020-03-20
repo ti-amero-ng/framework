@@ -1,9 +1,9 @@
-package com.huang.framework.authority.config;
+package com.huang.framework.authority.mobile;
 
-import com.huang.framework.authority.filter.SmsAuthenticationFilter;
+import com.huang.framework.authority.mobile.SmsAuthenticationFilter;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
-import com.huang.framework.authority.provider.SmsAuthenticationProvider;
+import com.huang.framework.authority.mobile.SmsAuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

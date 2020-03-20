@@ -1,6 +1,5 @@
 package com.huang.framework.authority.auth2;
 
-import com.huang.framework.authority.handler.GlobalAuthenticationEntryPoint;
 import com.huang.framework.authority.properties.OAuth2ClientProperties;
 import com.huang.framework.authority.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -116,7 +115,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                     .tokenEnhancer(enhancerChain)
                     .accessTokenConverter(jwtAccessTokenConverter);
         }
-//        endpoints.exceptionTranslator(new AuthExceptionEntryPoint());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.huang.framework.authority.filter;
+package com.huang.framework.authority.mobile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huang.framework.utils.http.ContentCachingRequestWrapper;
@@ -26,13 +26,13 @@ import java.util.Map;
  * @create 2020-03-13 11:03
  */
 public class SmsCodeAuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
     private GlobalAuthenticationFailureHandler authenticationFailureHandler;
 
     private AbstractCheckSmsCode abstractCheckSmsCode;
 
-    public SmsCodeAuthenticationFilter(AbstractCheckSmsCode abstractCheckSmsCode){
+    public SmsCodeAuthenticationFilter(AbstractCheckSmsCode abstractCheckSmsCode,GlobalAuthenticationFailureHandler authenticationFailureHandler){
         this.abstractCheckSmsCode = abstractCheckSmsCode;
+        this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
     @Override

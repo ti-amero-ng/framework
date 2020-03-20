@@ -1,4 +1,4 @@
-package com.huang.framework.authority.provider;
+package com.huang.framework.authority.mobile;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
