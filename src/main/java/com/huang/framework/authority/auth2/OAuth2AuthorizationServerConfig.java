@@ -80,6 +80,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                         .secret(bCryptPasswordEncoder.encode(c.getClientSecret()))
                         //令牌有效期
                         .accessTokenValiditySeconds(c.getAccessTokenValiditySeconds())
+                        //refresh_token有效期
+                        .refreshTokenValiditySeconds(c.getRefreshTokenValiditySeconds())
                         .redirectUris(c.getRedirectUris())
                         //客户单权限
                         .scopes(c.getScopes())

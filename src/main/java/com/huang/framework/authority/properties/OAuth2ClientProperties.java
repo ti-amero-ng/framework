@@ -22,6 +22,10 @@ public class OAuth2ClientProperties {
      */
     private int accessTokenValiditySeconds;
     /**
+     * refresh_token有效期
+     */
+    private int refreshTokenValiditySeconds;
+    /**
      * 授权模式
      */
     private String[] authorizedGrantTypes = {};
