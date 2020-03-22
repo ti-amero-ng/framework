@@ -15,13 +15,21 @@ import java.util.Map;
  *
  */
 public class CustomJwtTokenEnhancer implements TokenEnhancer {
+	private Map<String, Object> map;
+
+	public CustomJwtTokenEnhancer(Map<String, Object> map){
+		this.map = map;
+	}
+
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-		Map<String, Object> info = new HashMap<>();
-		info.put("company", "-Huang");
+		if(null == map){
+			map = new HashMap<>(16);
+			map.put("company", "-Huang");
+		}
 
 		// 设置附加信息
-		((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
+		((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(map);
 
 		return accessToken;
 	}

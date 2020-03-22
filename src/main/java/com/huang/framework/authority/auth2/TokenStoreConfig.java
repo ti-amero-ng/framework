@@ -58,7 +58,7 @@ public class TokenStoreConfig {
         @Bean
         @ConditionalOnBean(TokenEnhancer.class)
         public TokenEnhancer jwtTokenEnhancer() {
-            return new CustomJwtTokenEnhancer();
+            return new CustomJwtTokenEnhancer(securityProperties.getOauth2().getTokenInfo());
         }
     }
 }

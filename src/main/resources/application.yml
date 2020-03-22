@@ -15,8 +15,10 @@ framework:
         clientId: client
         clientSecret: 123qwe
         accessTokenValiditySeconds: 200
-        authorizedGrantTypes: ["refresh_token", "password"]
+        authorizedGrantTypes: ["refresh_token", "password","authorization_code"]
         redirectUris: "http://example.com"
         scopes: ["all", "read", "write"]
       tokenStore: jwt
       jwtSigningKey: secret
+      tokenInfo:
+        company: "-wzubi"
