@@ -51,6 +51,10 @@ public class GlobalReturnConfig implements ResponseBodyAdvice<Object>, WebMvcCon
             return returnObj;
         }
 
+        if(returnObj.toString().startsWith("error=")){
+            return ResponseResult.fail(returnObj);
+        }
+
         return  ResponseResult.success(returnObj);
 
     }
