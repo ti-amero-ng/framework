@@ -1,6 +1,5 @@
 package com.huang.framework.authority.config;
 
-import com.huang.framework.authority.auth2.CustomJwtTokenEnhancer;
 import com.huang.framework.authority.service.AbstractCheckSmsCode;
 import com.huang.framework.authority.service.DefaultSmsCheck;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
 /**
  * spring security相关配置

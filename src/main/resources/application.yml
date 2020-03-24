@@ -4,7 +4,6 @@ spring:
     url: jdbc:mysql://localhost:3306/framework?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT
     username: root
     password: root
-
 swagger:
   enable: true
 
@@ -20,5 +19,6 @@ framework:
         scopes: ["all", "read", "write"]
       tokenStore: jwt
       jwtSigningKey: secret
+#      confirm_url: "/custom/confirm_access"
       tokenInfo:
         company: "-wzubi"
