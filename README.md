@@ -279,22 +279,20 @@ public class TokenConfig extends TokenStoreConfig {
 - 配置client参数
 
 ```yml
-#spring security oauht2
+#spring security oauht2  参数说明见2.5.10
 framework:
   security:
-  	#OAuth2客户端参数
     oauth2:
-    #可以配置多个client
       clients[0]:
         clientId: client
         clientSecret: clientSecret
-        accessTokenValiditySeconds: 604800 						#token过期时间
-        refreshTokenValiditySeconds: 2592000					#refresh_token过期时间
-        authorizedGrantTypes: ["refresh_token", "password"]		#client权限
+        accessTokenValiditySeconds: 604800
+        refreshTokenValiditySeconds: 2592000
+        authorizedGrantTypes: ["refresh_token", "password"]
         redirectUris: "http://example.com"
         scopes: ["all", "read", "write"]
-      tokenStore: jwt											#token存储模式 redis、jwt
-      jwtSigningKey: maxMoney@WZ								#jwt Secret
+      tokenStore: jwt
+      jwtSigningKey: jwtSecret
 ```
 
 ##### 2.5.8 OAuth2登录
@@ -305,7 +303,7 @@ framework:
 
   - 设置Authorization
 
-    ![base_auth](img\base_auth.png)
+    ![base_auth](img/base_auth.png)
 
   - 设置请求头` Content-Type `为` application/json `
 
@@ -322,7 +320,7 @@ framework:
 
   - 设置Authorization
 
-    ![base_auth](img\base_auth.png)
+    ![base_auth](img/base_auth.png)
 
   - 设置请求头` Content-Type `为` application/json `
 
@@ -339,10 +337,10 @@ framework:
 
   - 设置设置Authorization
 
-  ![base_auth](img\base_auth.png)
+  ![base_auth](img/base_auth.png)
 
   - 参数
-  - ![refresh_token](img\refresh_token.png)
+  - ![refresh_token](img/refresh_token.png)
 
 ##### 2.5.9 自定义授权页面
 
