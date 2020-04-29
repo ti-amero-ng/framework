@@ -1,6 +1,5 @@
 package com.huang.framework.authority.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -8,15 +7,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 /**
  * @author -Huang
  * @create 2020-04-28 23:46
  */
-@Component
 public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public CustomDaoAuthenticationProvider(UserDetailsService userDetailsService,PasswordEncoder passwordEncoder){
