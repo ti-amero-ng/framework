@@ -117,7 +117,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                     .tokenEnhancer(enhancerChain)
                     .accessTokenConverter(jwtAccessTokenConverter);
         }
-        endpoints.pathMapping("/oauth/confirm_access",securityProperties.getOauth2().getConfirm_url());
+        endpoints.pathMapping("/oauth/confirm_access",securityProperties.getOauth2().getConfirmUrl());
     }
 
 }

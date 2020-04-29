@@ -1,13 +1,14 @@
 package com.huang.framework.authority.auth2;
 
 import com.huang.framework.authority.config.CloseAuthorityEvironment;
-import com.huang.framework.authority.mobile.SmsAuthenticationConfig;
+import com.huang.framework.authority.config.CustomDaoAuthenticationProvider;
 import com.huang.framework.authority.filter.CustomAuthenticationFilter;
-import com.huang.framework.authority.mobile.SmsCodeAuthenticationFilter;
 import com.huang.framework.authority.handler.GlobalAccessDeniedHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationEntryPoint;
 import com.huang.framework.authority.handler.GlobalAuthenticationFailureHandler;
 import com.huang.framework.authority.handler.GlobalAuthenticationSuccessHandler;
+import com.huang.framework.authority.mobile.SmsAuthenticationConfig;
+import com.huang.framework.authority.mobile.SmsCodeAuthenticationFilter;
 import com.huang.framework.authority.service.AbstractCheckSmsCode;
 import com.huang.framework.authority.service.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +27,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Collections;
 
 /**
  * 资源服务配置
@@ -135,7 +139,9 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
         CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
         filter.setAuthenticationSuccessHandler(new GlobalAuthenticationSuccessHandler(authorizationServerTokenServices,clientDetailsService,bCryptPasswordEncoder));
         filter.setAuthenticationFailureHandler(globalAuthenticationFailureHandler);
-        filter.setAuthenticationManager(authenticationManager);
+        ProviderManager providerManager =
+                new ProviderManager(Collections.singletonList(new CustomDaoAuthenticationProvider(userDetailsService,bCryptPasswordEncoder)));
+        filter.setAuthenticationManager(providerManager);
         return filter;
     }
 }

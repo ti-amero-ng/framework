@@ -17,7 +17,7 @@ public class OAuth2Properties {
     /**
      * 确认授权页面
      */
-    private String confirm_url = "/oauth/confirm_access";
+    private String confirmUrl = "/oauth/confirm_access";
     /**
      * token增强信息
      */

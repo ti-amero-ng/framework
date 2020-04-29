@@ -23,7 +23,7 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException)
             throws ServletException {
 
-        Map map = new HashMap();
+        Map map = new HashMap(16);
         map.put("code", "401");
         map.put("msg", "无效令牌");
         map.put("data", authException.getMessage());

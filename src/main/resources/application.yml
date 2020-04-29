@@ -19,6 +19,6 @@ framework:
         scopes: ["all", "read", "write"]
       tokenStore: jwt
       jwtSigningKey: secret
-#      confirm_url: "/custom/confirm_access"
+#      confirmUrl: "/custom/confirm_access"
       tokenInfo:
         company: "-wzubi"
