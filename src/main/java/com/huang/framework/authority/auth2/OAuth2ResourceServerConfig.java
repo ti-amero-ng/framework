@@ -140,9 +140,14 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
         filter.setAuthenticationSuccessHandler(new GlobalAuthenticationSuccessHandler(authorizationServerTokenServices,clientDetailsService,bCryptPasswordEncoder));
         filter.setAuthenticationFailureHandler(globalAuthenticationFailureHandler);
         ProviderManager providerManager =
-                new ProviderManager(Collections.singletonList(new CustomDaoAuthenticationProvider(userDetailsService,bCryptPasswordEncoder)));
+                new ProviderManager(Collections.singletonList(customDaoAuthenticationProvider()));
         filter.setAuthenticationManager(providerManager);
         return filter;
+    }
+
+    @Bean
+    CustomDaoAuthenticationProvider customDaoAuthenticationProvider(){
+        return new CustomDaoAuthenticationProvider(userDetailsService,bCryptPasswordEncoder);
     }
 }
 
