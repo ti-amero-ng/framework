@@ -481,3 +481,6 @@ public IPage<UserAgentVO> pageUserAgents(UserAgentSearch search) {
     return userAgentServiceImpl.pageUserAgents(search);
 }
 ```
+
+### 三、framework框架的使用案例
+test-framework项目：https://github.com/ti-amero-ng/test-framework
