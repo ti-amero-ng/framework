@@ -1,6 +1,6 @@
 ### 前言
 
-​	此框架 是由SpringBoot + Spring Security + Spring Security OAuth2 + Mybatis Plus + Mysql 组成的一套开发认证授权框架。该套框架基于约定大于配置的原则实现了大部分项目开发中需要用到的功能模块，比如接口权限控制JWT Token、App认证、MybatisPlus集成与配置、Swagger继承与配置、跨域配置、全局异常处理、API接口实现统一格式返回等等。
+​	此框架 是由SpringBoot + Spring Security + Spring Security OAuth2 + Mybatis Plus + Mysql 组成的一套开发认证授权框架。该套框架基于约定大于配置的原则实现了大部分项目开发中需要用到的功能模块，比如接口权限控制JWT Token、App认证、MybatisPlus集成与配置、Swagger成与配置、跨域配置、全局异常处理、API接口实现统一格式返回等等。
 
 ​	该框架基于Jdk 1.8、SpringBoot 2.1.8开发，同时遵循《阿里巴巴Java开发手册V1.5》、API接口遵循Restful风格。
 
