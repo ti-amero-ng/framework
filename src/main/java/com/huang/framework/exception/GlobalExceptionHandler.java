@@ -4,11 +4,15 @@ import com.huang.framework.response.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author -Huang
@@ -40,13 +44,14 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseResult validationHandler(MethodArgumentNotValidException exception) {
-        StringBuffer stringBuffer = new StringBuffer();
-        for (FieldError error : exception.getBindingResult().getFieldErrors()) {
-            stringBuffer.append(error.getDefaultMessage()).append(";");
-        }
-        log.error("数据校验异常MethodArgumentNotValidException："+stringBuffer.toString());
-        exception.printStackTrace();
-        return ResponseResult.fail(stringBuffer.toString());
+        log.error("数据校验异常：" + exception.getMessage());
+        BindingResult bindingResult = exception.getBindingResult();
+
+        Map<String, String> errorMap = new HashMap<>(16);
+        bindingResult.getFieldErrors().forEach(error -> {
+            errorMap.put(error.getField(), error.getDefaultMessage());
+        });
+        return new ResponseResult(500,"数据校验异常",errorMap);
     }
 
     /**
