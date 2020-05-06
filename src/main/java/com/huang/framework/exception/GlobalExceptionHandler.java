@@ -4,6 +4,7 @@ import com.huang.framework.response.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -42,15 +43,16 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ResponseBody
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseResult validationHandler(MethodArgumentNotValidException exception) {
+    @ExceptionHandler(value = BindException.class)
+    public ResponseResult validationHandler(BindException exception) {
         log.error("数据校验异常：" + exception.getMessage());
         BindingResult bindingResult = exception.getBindingResult();
 
-        Map<String, String> errorMap = new HashMap<>(16);
-        bindingResult.getFieldErrors().forEach(error -> {
-            errorMap.put(error.getField(), error.getDefaultMessage());
+        Map<String,String> errorMap = new HashMap<>();
+        bindingResult.getFieldErrors().forEach((fieldError)->{
+            errorMap.put(fieldError.getField(),fieldError.getDefaultMessage());
         });
+
         return new ResponseResult(500,"数据校验异常",errorMap);
     }
 
